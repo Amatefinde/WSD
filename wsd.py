@@ -6,7 +6,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 pipe = Text2TextGenerationPipeline(
     model=AutoModelForSeq2SeqLM.from_pretrained("jpelhaw/t5-word-sense-disambiguation"),
-    tokenizer=AutoTokenizer.from_pretrained("jpelhaw/t5-word-sense-disambiguation", legacy=False),
+    tokenizer=AutoTokenizer.from_pretrained("jpelhaw/t5-word-sense-disambiguation", legacy=True),
     device=device,
     max_new_tokens=1024
 )
