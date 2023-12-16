@@ -21,10 +21,10 @@ def detect_words(img):
         # img = cv2.rectangle(img, (i[0], i[2]), (i[1], i[3]),
         #                       (randint(100, 200), randint(100, 200), randint(100, 200)), 1)
         obj = {  # i[0] - start; i[2] - top; i[1] - end; i[3] - bottom;
-            "start": i[0],
-            "end": i[1],
-            "top": i[2],
-            "bottom": i[3],
+            "start": int(i[0]),
+            "end": int(i[1]),
+            "top": int(i[2]),
+            "bottom": int(i[3]),
             "image": img[i[2]:i[3], i[0]:i[1]],
         }
         # img = cv2.drawMarker(img, (i[1], i[3]), (255, 0, 255))
@@ -49,7 +49,7 @@ def detect_words(img):
         generated_text.extend(batch_generated_text)
     for idx, obj in enumerate(crops):
         del obj["image"]
-        obj["text"] = generated_text[idx]
+        obj["text"] = str(generated_text[idx])
     print("Word recognition: ", time.time() - start_time, "sec")
     return crops
 
@@ -58,7 +58,6 @@ if __name__ == "__main__":
     path_img = "test_content/img.png"
     image = cv2.imread(path_img)
     crop_images = detect_words(image)
-    crop_images = detect_words(image)
-    crop_images = detect_words(image)
+
 
 
