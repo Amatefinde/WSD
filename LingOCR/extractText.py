@@ -1,9 +1,18 @@
+import json
 import cv2
 import pdfplumber
 import io
 import numpy as np
 from typing import TypedDict, List
 import time
+import requests
+
+
+def call_to_ocr(np_image, url='http://192.168.31.23:8007/parse_image'):
+    image_json = json.dumps({"image_data": np_image.tolist()})
+    response = requests.post(url, data=image_json, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        return response.json()
 
 
 class WordSchema(TypedDict):
@@ -44,8 +53,7 @@ def parse_pfd(pdf_bytesio: io.BytesIO | str,  static_path: str, literature_numbe
             cv2_image = cv2.cvtColor(cv2_image, cv2.COLOR_RGB2BGR)
 
             if use_ocr:
-                import LingDetection
-                parsed_page["words"] = LingDetection.detect_words(cv2_image)
+                parsed_page["words"] = call_to_ocr(cv2_image)
 
             else:
                 for element in page.extract_words():
